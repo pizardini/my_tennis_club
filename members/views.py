@@ -38,3 +38,20 @@ def delete(request, id):
   member = Member.objects.get(id=id)
   member.delete()
   return HttpResponseRedirect(reverse('members'))
+
+def update(request, id):
+  mymember = Member.objects.get(id=id)
+  template = loader.get_template('update.html')
+  context = {
+    'mymember': mymember,
+  }
+  return HttpResponse(template.render(context, request))
+
+def updaterecord(request, id):
+  first = request.POST['first']
+  last = request.POST['last']
+  member = Member.objects.get(id=id)
+  member.firstname = first
+  member.lastname = last
+  member.save()
+  return HttpResponseRedirect(reverse('members'))
