@@ -2,6 +2,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from .models import Member
+from plans.models import Plan
+
 
 def members(request):
   mymembers = Member.objects.all().values()
@@ -24,13 +26,18 @@ def main(request):
   return HttpResponse(template.render())
 
 def add(request):
+  myplans = Plan.objects.all().values()
   template = loader.get_template('add.html')
-  return HttpResponse(template.render({}, request))
+  context = {
+	'myplans': myplans,
+  }
+  return HttpResponse(template.render(context, request))
 
 def addrecord(request):
   x = request.POST['first']
   y = request.POST['last']
-  member = Member(firstname=x, lastname=y)
+  z = Plan.objects.filter(id=request.POST['plan']).first()
+  member = Member(firstname=x, lastname=y, plan=z)
   member.save()
   return HttpResponseRedirect(reverse('members'))
 
@@ -41,15 +48,18 @@ def delete(request, id):
 
 def update(request, id):
   mymember = Member.objects.get(id=id)
+  myplans = Plan.objects.all().values()
   template = loader.get_template('update.html')
   context = {
     'mymember': mymember,
+	'myplans': myplans,
   }
   return HttpResponse(template.render(context, request))
 
 def updaterecord(request, id):
   first = request.POST['first']
   last = request.POST['last']
+  plan = request.POST['plan']
   member = Member.objects.get(id=id)
   member.firstname = first
   member.lastname = last

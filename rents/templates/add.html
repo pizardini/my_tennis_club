@@ -1,28 +1,27 @@
 {% extends "master.html" %}
 
 {% block title %}
-- Novo Membro
+- Novo Aluguel
 {% endblock %}
 {% block content %}
 <div class="card mt-2">
     <div class="card-header">
-        Novo membro
+        Novo Aluguel
     </div>
     <div class="card-body">
 
         <form action="addrecord/" method="post">
             {% csrf_token %}
-            <select name="plan">
-                {% for x in myplans %}
+            <select name="member">
+                {% for x in members %}
                 <option value ="{{ x.id }}">{{ x.title }}</option>
                 {% endfor %}
             </select>
-            First Name:<br>
-            <input name="first">
-            <br><br>
-            Last Name:<br>
-            <input name="last">
-            <br><br>
+            <select name="equipment">
+                {% for x in equipments %}
+                <option value ="{{ x.id }}">{{ x.title }}</option>
+                {% endfor %}
+            </select>
             <input type="submit" value="Submit">
         </form>
         <p><a href="/members">Voltar</a></p>

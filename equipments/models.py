@@ -15,5 +15,8 @@ class Equipment(models.Model):
     purchase_date = models.DateField(null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.type.upper()} - {self.serial}"
+
 
 

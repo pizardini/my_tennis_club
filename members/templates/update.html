@@ -13,7 +13,13 @@
 
         <form action="updaterecord/{{ mymember.id }}" method="post">
             {% csrf_token %}
-
+            <p>Plan:
+                <select name="plan">
+                {% for x in myplans %}
+                <option {% if x.id == mymember.plan.id %} selected {% endif %} value="{{ x.id }}">{{ x.title }}</option>
+                {% endfor %}
+                </select>
+            </p>
             First Name:<br>
             <input name="first" value="{{ mymember.firstname }}">
             <br><br>
